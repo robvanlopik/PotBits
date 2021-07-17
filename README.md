@@ -1,2 +1,2 @@
 # PotBits
-loose packages for PharoThins
+loose packages for PharoThings
