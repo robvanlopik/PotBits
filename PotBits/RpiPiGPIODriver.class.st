@@ -86,6 +86,12 @@ RpiPiGPIODriver >> setIOMode: aPinMode into: aPin [
 ]
 
 { #category : #operations }
+RpiPiGPIODriver >> setPUDResister: aPinResisterClass into: aPin [
+
+	piGPIO pin: aPin id pullUpDnMode: aPinResisterClass asWiringPiConstant 
+]
+
+{ #category : #operations }
 RpiPiGPIODriver >> writeDigitalValue: aBit into: aPin [
 	piGPIO digitalWrite: aPin id value: aBit
 ]
