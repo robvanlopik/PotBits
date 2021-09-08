@@ -13,12 +13,12 @@ Class {
 
 { #category : #initialization }
 PicoBoard class >> defaultDriver [
-	^PotPicoDriver onPort: '/dev/ttyACM1' baudRate: 230400
+	^PotPicoDriver onPort: '/dev/ttyACM0' baudRate: 230400
 ]
 
 { #category : #initialization }
 PicoBoard >> initialize [ 
-	"treat the board as the connector X with the USB port on top"
+	"treat the board with the connector X with the USB port on top"
 	super initialize .
 	
 	self addNewConnector: 'X' with: 
@@ -41,8 +41,12 @@ PicoBoard >> initialize [
 			13 gpio . 18 gpio .
 			0 powerPin . 0 powerPin .
 			14 gpio . 17 gpio .
-			15 gpio . 16 gpio }
-
+			15 gpio . 16 gpio }.
+	"add a connector V(irtual) to host the pins that are not brought out on the board:
+		23 - SMPS power save, 24 VBUS sense, 25 - LED, 29 analog VSYS/3"
+		self addNewConnector: 'V' with: 
+	{ 	23 gpio . 24 gpio .
+		25 gpio . 29 gpio }
 ]
 
 { #category : #initialization }
