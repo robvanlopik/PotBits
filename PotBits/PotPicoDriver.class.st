@@ -61,6 +61,28 @@ PotPicoDriver >> readDigitalValueFrom: aPin [
 ]
 
 { #category : #operations }
+PotPicoDriver >> setIOMode: aPinMode into: aPin [
+	(aPinMode asWiringPiConstant = 1) ifTrue: 
+		[ ^picodDriver setGpiosOutput: {aPin id} values: #(0)].
+	(aPinMode asWiringPiConstant = 0) ifTrue: 
+		[ ^picodDriver setGpiosInput: { aPin id} ]
+]
+
+{ #category : #operations }
+PotPicoDriver >> setPUDResister: aPinResisterClass into: aPin [
+	"aPinResisterClass asWiingPiConstant gives the situation desired:
+	0 = none
+	1 = down
+	2 = up"
+	| pudCode |
+	pudCode := aPinResisterClass asWiringPiConstant.
+	(pudCode = 0) ifTrue: [ ^picodDriver pullsNone: {aPin id}].
+	(pudCode = 1) ifTrue: [ ^picodDriver pullsDown: {aPin id}].
+	(pudCode = 2) ifTrue: [ ^picodDriver pullsUp: {aPin id}].
+	"there is no pudCode for #pullsBoth:"
+]
+
+{ #category : #operations }
 PotPicoDriver >> writeDigitalValue: aBit into: aPin [
 	picodDriver digitalWrite: aPin id value: aBit 
 ]
